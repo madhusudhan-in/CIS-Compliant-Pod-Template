@@ -1,0 +1,243 @@
+# Default values for CIS Compliant Pod Template
+# This file contains all the configurable values for the enterprise-grade pod template
+
+# Image configuration
+image:
+  repository: "your-registry/your-app"
+  tag: "1.0.0"
+  digest: "sha256:abc123def456ghi789jkl012mno345pqr678stu901vwx234yz"
+  pullPolicy: "Always"
+
+# Image pull secrets
+imagePullSecrets:
+  name: "registry-secret"
+
+# Service account configuration
+serviceAccount:
+  name: "app-service-account"
+  create: true
+  annotations: {}
+
+# Pod metadata
+metadata:
+  name: "secure-pod-template"
+  namespace: "production"
+  labels:
+    app: "secure-app"
+    version: "1.0.0"
+    environment: "production"
+    team: "security"
+    cost-center: "SEC-001"
+    compliance: "CIS-LEVEL-2"
+  annotations:
+    security.kubernetes.io/psp: "restricted"
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/path: "/metrics"
+    sidecar.istio.io/inject: "false"
+
+# Resource configuration
+resources:
+  limits:
+    memory: "512Mi"
+    cpu: "1000m"
+    ephemeral-storage: "1Gi"
+  requests:
+    memory: "256Mi"
+    cpu: "500m"
+    ephemeral-storage: "100Mi"
+
+# Configuration management
+config:
+  name: "app-config"
+  key: "config.yaml"
+  path: "config.yaml"
+  subPath: ""
+  defaultMode: 0644
+
+# Temporary storage
+tmp:
+  subPath: "tmp"
+  sizeLimit: "100Mi"
+
+# Logging
+logs:
+  subPath: "logs"
+  sizeLimit: "500Mi"
+
+# Certificates and secrets
+certs:
+  secretName: "app-certs"
+  certKey: "tls.crt"
+  certPath: "tls.crt"
+  keyKey: "tls.key"
+  keyPath: "tls.key"
+  defaultMode: 0400
+
+# Security context
+security:
+  runAsUser: 1000
+  runAsGroup: 3000
+  fsGroup: 2000
+  supplementalGroups: [2000, 3000]
+  seLinuxLevel: "s0:c123,c456"
+  sysctls:
+    net.ipv4.ip_local_port_range: "32768 65535"
+    net.ipv4.tcp_max_syn_backlog: "4096"
+
+# Container security context
+containerSecurity:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  capabilities:
+    drop: ["ALL"]
+    add: ["NET_BIND_SERVICE"]
+
+# Health checks
+healthChecks:
+  liveness:
+    path: "/health"
+    port: 8080
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+  readiness:
+    path: "/ready"
+    port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+    successThreshold: 1
+  startup:
+    path: "/startup"
+    port: 8080
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+
+# Ports
+ports:
+  http:
+    containerPort: 8080
+    protocol: "TCP"
+  metrics:
+    containerPort: 9090
+    protocol: "TCP"
+  health:
+    containerPort: 8081
+    protocol: "TCP"
+
+# Environment variables
+env:
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+  METRICS_PORT: "8080"
+  CONFIG_PATH: "/app/config"
+
+# Node affinity
+affinity:
+  nodeSelector:
+    kubernetes.io/os: "linux"
+    node-role.kubernetes.io/worker: ""
+    security.kubernetes.io/secure-node: "true"
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: "app"
+                operator: "In"
+                values: ["secure-app"]
+          topologyKey: "kubernetes.io/hostname"
+
+# Tolerations
+tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "security"
+    effect: "NoSchedule"
+
+# Priority class
+priorityClassName: "high-priority"
+
+# Pod lifecycle
+lifecycle:
+  preStop:
+    exec:
+      command: ["/bin/sh", "-c", "sleep 10"]
+  postStart:
+    exec:
+      command: ["/bin/sh", "-c", "echo 'Container started' > /tmp/startup.log"]
+
+# Termination grace period
+terminationGracePeriodSeconds: 30
+
+# DNS policy
+dnsPolicy: "ClusterFirst"
+
+# Host access controls
+hostAccess:
+  hostNetwork: false
+  hostPID: false
+  hostIPC: false
+  shareProcessNamespace: false
+
+# Service account token
+automountServiceAccountToken: false
+
+# Config checksum for rolling updates
+configChecksum: ""
+
+# Monitoring and observability
+monitoring:
+  enabled: true
+  prometheus:
+    scrape: true
+    port: 8080
+    path: "/metrics"
+  logging:
+    level: "info"
+    format: "json"
+
+# Compliance and security
+compliance:
+  cisLevel: "2"
+  securityProfile: "restricted"
+  auditLogging: true
+  policyEnforcement: true
+
+# Backup and disaster recovery
+backup:
+  enabled: true
+  schedule: "0 2 * * *"
+  retention: "30d"
+  storage:
+    type: "s3"
+    bucket: "k8s-backups"
+    region: "us-west-2"
+
+# CI/CD integration
+cicd:
+  pipeline:
+    type: "github-actions"  # or "gitlab-ci", "jenkins", "tekton"
+    autoDeploy: true
+    securityScanning: true
+    complianceValidation: true
+  environments:
+    - name: "development"
+      autoApprove: true
+      requiredReviews: 1
+    - name: "staging"
+      autoApprove: false
+      requiredReviews: 2
+    - name: "production"
+      autoApprove: false
+      requiredReviews: 3
+      manualApproval: true 
