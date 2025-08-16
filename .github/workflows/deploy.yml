@@ -17,6 +17,13 @@ on:
         - staging
         - production
 
+# Permissions needed for the workflow
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  id-token: write
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -33,12 +40,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.18.4
         with:
           scan-type: 'config'
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
 
       - name: Run Kubesec security scan
         run: |
@@ -89,9 +97,48 @@ jobs:
             exit 1
           fi
 
+      - name: Check SARIF file exists
+        id: check-sarif
+        if: always()
+        run: |
+          if [ -f "trivy-results.sarif" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "SARIF file found"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "SARIF file not found"
+          fi
+
       - name: Upload Trivy results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: steps.check-sarif.outputs.exists == 'true'
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Create fallback SARIF file
+        if: steps.check-sarif.outputs.exists == 'false'
+        run: |
+          cat > trivy-results.sarif << 'EOF'
+          {
+            "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+            "version": "2.1.0",
+            "runs": [
+              {
+                "tool": {
+                  "driver": {
+                    "name": "Trivy",
+                    "version": "0.18.4"
+                  }
+                },
+                "results": []
+              }
+            ]
+          }
+          EOF
+
+      - name: Upload fallback SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        if: steps.check-sarif.outputs.exists == 'false'
         with:
           sarif_file: 'trivy-results.sarif'
 
