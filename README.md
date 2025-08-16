@@ -2,7 +2,7 @@
 
 A comprehensive, enterprise-grade Kubernetes Pod template that implements CIS (Center for Internet Security) compliance standards and best practices for production environments.
 
-## 🚀 Features
+## Features
 
 ### Security & Compliance
 - **CIS Level 2 Compliance**: Implements comprehensive security controls
@@ -24,7 +24,7 @@ A comprehensive, enterprise-grade Kubernetes Pod template that implements CIS (C
 - **Security Scanning**: Integration with container security tools
 - **Compliance Validation**: Automated security policy checks
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Kubernetes cluster 1.21+
 - Pod Security Standards enabled
@@ -32,7 +32,7 @@ A comprehensive, enterprise-grade Kubernetes Pod template that implements CIS (C
 - Container runtime with seccomp support
 - SELinux enabled (if using SELinux policies)
 
-## 🛠️ Installation & Usage
+## Installation & Usage
 
 ### 1. Basic Usage
 
@@ -127,7 +127,7 @@ deploy:
     - kubectl rollout status deployment/secure-app
 ```
 
-## 🔒 Security Features
+## Security Features
 
 ### Pod Security Context
 - **Non-root execution**: Runs as unprivileged user (UID 1000)
@@ -146,7 +146,7 @@ deploy:
 - **Temporary storage**: Memory-backed ephemeral storage
 - **Access controls**: Proper file permissions and ownership
 
-## 📊 Monitoring & Observability
+## Monitoring & Observability
 
 ### Health Checks
 - **Liveness probe**: Application health monitoring
@@ -163,7 +163,7 @@ deploy:
 - **Storage quotas**: Ephemeral storage management
 - **QoS classification**: Guaranteed resource allocation
 
-## 🏗️ Architecture
+## Architecture
 
 ### Node Affinity
 - **Security nodes**: Deploy to dedicated security nodes
@@ -175,7 +175,7 @@ deploy:
 - **Tolerations**: Dedicated node deployment
 - **Resource quotas**: Enforced limits and requests
 
-## 🔧 Customization
+## Customization
 
 ### Environment-Specific Configurations
 
@@ -227,7 +227,7 @@ securityContext:
       value: "8192"
 ```
 
-## 🧪 Testing & Validation
+## Testing & Validation
 
 ### Security Scanning
 ```bash
@@ -260,7 +260,7 @@ EOF
 kubectl exec -it secure-pod -- stress-ng --cpu 4 --timeout 60s
 ```
 
-## 📚 Best Practices
+## Best Practices
 
 ### 1. Regular Updates
 - Update base images monthly
@@ -277,7 +277,7 @@ kubectl exec -it secure-pod -- stress-ng --cpu 4 --timeout 60s
 - Document recovery procedures
 - Test disaster recovery plans
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -318,7 +318,7 @@ kubectl get psp restricted -o yaml
 - [Kubernetes Security Best Practices](https://kubernetes.io/docs/concepts/security/)
 - [Helm Documentation](https://helm.sh/docs/)
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -326,11 +326,11 @@ kubectl get psp restricted -o yaml
 4. Add tests and documentation
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## Support
 
 For support and questions:
 - Create an issue in the repository
