@@ -311,7 +311,7 @@ kubectl get pod secure-pod-template -o yaml | grep -A 20 securityContext
 kubectl get psp restricted -o yaml
 ```
 
-## 📖 References
+## References
 
 - [CIS Kubernetes Benchmark](https://www.cisecurity.org/benchmark/kubernetes/)
 - [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/)
