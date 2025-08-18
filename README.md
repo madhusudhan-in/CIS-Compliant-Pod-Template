@@ -334,9 +334,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support and questions:
 - Create an issue in the repository
-- Contact the security team
-- Review the troubleshooting guide
 
----
 
 **Note**: This template is designed for production use but should be reviewed and customized according to your specific security requirements and compliance standards.
