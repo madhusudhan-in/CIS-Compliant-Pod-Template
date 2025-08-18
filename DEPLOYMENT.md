@@ -2,7 +2,7 @@
 
 This guide provides comprehensive instructions for deploying the enterprise-grade CIS compliant pod template across different environments and CI/CD pipelines.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 
@@ -112,7 +112,7 @@ resources:
     cpu: "1000m"
 ```
 
-## 🔐 Security Configuration
+## Security Configuration
 
 ### 1. Service Account Setup
 
@@ -151,7 +151,7 @@ kubectl create configmap app-config \
   -n <namespace>
 ```
 
-## 🚀 CI/CD Pipeline Integration
+## CI/CD Pipeline Integration
 
 ### GitHub Actions
 
@@ -367,7 +367,7 @@ volumes:
       sizeLimit: "500Mi"
 ```
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -473,7 +473,7 @@ volumes:
       sizeLimit: "100Mi"    # Set appropriate size limit
 ```
 
-## 🔄 Rolling Updates
+## Rolling Updates
 
 ### 1. Update Strategy
 
@@ -501,7 +501,7 @@ kubectl patch service secure-app-service -p '{"spec":{"selector":{"version":"v2"
 kubectl delete deployment secure-app-v1
 ```
 
-## 📚 Best Practices
+## Best Practices
 
 ### 1. Security
 
@@ -531,14 +531,13 @@ kubectl delete deployment secure-app-v1
 - Update security policies regularly
 - Document troubleshooting procedures
 
-## 🆘 Support
+## Support
 
 For additional support:
 
 1. **Check the troubleshooting section** above
 2. **Review the README.md** for comprehensive documentation
 3. **Create an issue** in the repository
-4. **Contact the security team** for compliance questions
 
 ---
 
