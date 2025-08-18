@@ -127,7 +127,7 @@ jobs:
                 "tool": {
                   "driver": {
                     "name": "Trivy",
-                    "version": "0.32.0"
+                    "version": "0.28.0"
                   }
                 },
                 "results": []
