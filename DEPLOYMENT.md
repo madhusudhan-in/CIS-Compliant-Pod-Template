@@ -287,7 +287,7 @@ env:
     value: "json"
 ```
 
-## 🛡️ Security Validation
+## 🛡Security Validation
 
 ### 1. Policy Enforcement with OPA/Gatekeeper
 
@@ -430,7 +430,7 @@ kubectl get configmaps,secrets
 kubectl get serviceaccount app-service-account -o yaml
 ```
 
-## 📊 Performance Optimization
+## Performance Optimization
 
 ### 1. Resource Optimization
 
